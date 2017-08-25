@@ -12,7 +12,6 @@ const FirebaseAuth = require('firebaseauth');
 var firebase = new FirebaseAuth(process.env.FIREBASE_API_KEY);
 
 const serviceAccount = require("./firebase.json");
-const databaseURL = "https://test-projects-1273.firebaseio.com";
 
 app.post('/login', function(req, res){
 	var email = req.body.email;
@@ -58,11 +57,11 @@ app.post('/register', function(req, res){
 });
 
 //protect following endpoints
-// app.use(firebase.protect(serviceAccount, databaseURL));
+app.use(firebase.protect(serviceAccount));
 
 //protect following endpoints with extra functionailites
-const protector_callback = require('./middlewares/protector_callback');
-app.use(firebase.protect(serviceAccount, databaseURL, protector_callback));
+// const protector_callback = require('./middlewares/protector_callback');
+// app.use(firebase.protect(serviceAccount, protector_callback));
 
 app.get('/profile', function(req, res){
 	res.success(req.user);
